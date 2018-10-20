@@ -29,51 +29,23 @@ A 64-bit Ubuntu is required to establish a compile environment. Please download 
 * Download [Ubuntu 16.04.1 64-bit](http://releases.ubuntu.com/16.04.1/ubuntu-16.04.1-desktop-amd64.iso)
 * [Install Ubuntu on the Host PC](https://www.ubuntu.com/download/desktop/install-ubuntu-desktop)
 
-### 1.2 Install Quartus Prime Standard Edition 16.0.2
+### 1.2 Install Quartus Prime Standard Edition 18.0
 Altera Quartus is required to compile FPGA project. Please follow the instruction below to download and install Quartus Prime, Cyclone V device and the patch on Ubuntu.
 
-* Download [Quartus Prime Standard Edition](http://dl.altera.com/18.1/?edition=standard&platform=linux#tabs-2) and [Cyclone V device support](http://dl.altera.com/18.1/?edition=standard&platform=linux#tabs-2)
-  ![Download Quartus Prime Standard Edition & Cyclone V device support](https://i.imgur.com/CergaYS.png)
-* Install Quartus Prime Standard Edition
-  * Click Next
-    ![](https://i.imgur.com/G1uZpTv.png)
-  * Select "I accept the agreement" and click Next
-    ![](https://i.imgur.com/GGkRrGo.png)
-  * Pease use the default directory and click Next
-    ![](https://i.imgur.com/GycEQpN.png)
-  * Select "Quartus Prime Standard Edition", "Cyclone V", "Quartus Prime Update 16.0.2.222" and click Next
-    ![](https://i.imgur.com/U0UipiL.png)
-  * Click Next
-    ![](https://i.imgur.com/PmZsH9m.png)
-  * Unselect "Create shortcutes on Desktop", "Launch Quartus Prime Standard Edition" and click Finish
-    ![](https://i.imgur.com/GqgOr2W.png)
-
-
+* Download and install [Quartus Prime Standard Edition](http://dl.altera.com/18.1/?edition=standard&platform=linux#tabs-2) and [Cyclone V device support](http://dl.altera.com/18.1/?edition=standard&platform=linux#tabs-2)
+  
 ### 1.3 Install SoC EDS tool
 Altera SoC EDS tool is required to compile ARM project. Please follow the instructions below to install the EDS tool. 
 :::info
 Note: Altera DS-5 is not required for the installation.
 :::
 
-* Download the [SoC EDS tool](http://dl.altera.com/soceds/18.1/?platform=linux)
-* Install the SoC EDS tool
-  * Click Next
-    ![](https://i.imgur.com/ATVY2pS.png)
-  * Select "I accept the agreement" and click Next
-    ![](https://i.imgur.com/FRgmsHR.png)
-  * Please use the default directory and click Next
-    ![](https://i.imgur.com/rzsXXY1.png)
-  * Unselect "Quartus Prime Programmer and Tools" and click Next
-    ![](https://i.imgur.com/aQLFgYP.png)
-  * Click Next
-    ![](https://i.imgur.com/uvuxp7B.png)
-  * Unselect "Launch DS-5 installation" and click Finish
-    ![](https://i.imgur.com/2dHgAx0.png)
+* Download and install the [SoC EDS tool](http://dl.altera.com/soceds/18.1/?platform=linux)
 
 ### 1.4 Install arm-linux-gnueabihf Toolchain
 ARM toolchain is required to cross-compile ARM project. Please type the following commands in Ubuntu Terminal to install the required ARM toolcahin.
 ```shell
-#Ubuntu 16.04.1
+#for Ubuntu 16.04.1
 cd /opt
 sudo wget -c https://releases.linaro.org/components/toolchain/binaries/5.2-2015.11-2/arm-linux-gnueabihf/gcc-linaro-5.2-2015.11-2-x86_64_arm-linux-gnueabihf.tar.xz
 sudo tar xvf gcc-linaro-5.2-2015.11-2-x86_64_arm-linux-gnueabihf.tar.xz
@@ -81,7 +53,7 @@ sudo ln -s gcc-linaro-5.2-2015.11-2-x86_64_arm-linux-gnueabihf arm-linux-guneabi
 export PATH=$PATH:/opt/arm-linux-guneabihf/bin
 ```
 ```shell
-#Ubuntu 18.04.1
+#for Ubuntu 18.04.1
 cd /opt
 sudo wget -c https://releases.linaro.org/components/toolchain/binaries/7.3-2018.05/arm-linux-gnueabihf/gcc-linaro-7.3.1-2018.05-i686_arm-linux-gnueabihf.tar.xz
 sudo tar xvf gcc-linaro-7.3.1-2018.05-i686_arm-linux-gnueabihf.tar.xz
