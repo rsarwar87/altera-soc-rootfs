@@ -301,14 +301,23 @@ sudo -E make modules_install INSTALL_MOD_PATH=~/de10_nano/rootfs/
 This chapter describes how to merge the components generated in above chapters into an image file. It also shows how to write this image file into a microSD card. 
 
 
-The Python script file 'make_sdimage.py' provided from rocketboards.org can be used to merge these components. Execute the script file
+The Python script file 'make_sdimage2.py' provided from rocketboards.org can be used to merge these components. Execute the script file
 Type the following commands in terminal to execute the script file and merge all components into a single image file 'de1-soc-sd-card.img'
 ```shell
+## for 16 GB images
 sudo ./make_sdimage.py -f \
      -P p1/*,num=1,format=vfat,size=500M \
      -P p2/*,num=2,format=ext3,size=13500M \
      -P p3/preloader-mkpimage.bin,p3/u-boot.img,num=3,format=raw,size=10M,type=A2 \
      -s 14200M \
+     -n de10-nqno-sd-card.img
+     
+## for 4 GB images
+sudo ./make_sdimage.py -f \
+     -P p1/*,num=1,format=vfat,size=100M \
+     -P p2/*,num=2,format=ext3,size=3500M \
+     -P p3/preloader-mkpimage.bin,p3/u-boot.img,num=3,format=raw,size=10M,type=A2 \
+     -s 3700M \
      -n de10-nqno-sd-card.img
 ```
 
@@ -346,16 +355,6 @@ There are three partitions in microSD Card
 The order of the partitions cannot be changed. 
 :::
 
-The following table shows how components are generated.
-| Item | Description | Reference |
-| --------- | ----------- | -------------- |
-| preloader-mkpimage.bin | Preloader image | <a href="#2-build-fpga-project">Build FPGA Project</a> <br>`make preloader` |
-| u-boot.img | U-boot image | <a href="#2-build-fpga-project">Build FPGA Project</a> <br>`make uboot` |
-| soc_system.dtb | Device Tree Blob | <a href="#2-build-fpga-project">Build FPGA Project</a> <br>`make dtb` |
-| soc_system.rbf | FPGA configuration file | <a href="#2-build-fpga-project">Build FPGA Project</a> <br>`make rbf` |
-| u-boot.scr | U-boot script for configuring FPGA | <a href="#2-build-fpga-project">Build FPGA Project</a> <br>`make u-boot.scr` |
-| zImage | Linux kernel image file | <a href="#4-build-linux-kernel">Build Linux Kernel</a> |
-| filesystem | Linux root filesystem | <a href="#3-build-linux-filesystem">Build Linux Filesystem</a> |
 
 ## Update Individual Elements on the microSD Card
 It is time consuming to write the entire image to the microSD card whenever a modification is made. Hence it is preferred to update the elements individually after the first image is created and written to the microSD card. 
