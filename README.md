@@ -9,6 +9,13 @@ This repository includes an Ubuntu 18.04.1 base with several development package
 4. <a href="#4-build-linux-kernel">Build Linux Kernel</a>
 5. <a href="#5-create-linux-image-file">Create Linux Image File</a>
 
+* The following scripts aims to automate some of these steps.
+1. download_rootfs.sh -- Download and prepare root file system.
+2. update_rootfs.sh -- Update file system with standard tools
+3. prepare_devicetree.sh -- compiles device hardware information and places them according to requirement. Please ensure that 2.2 Quartus Setup is followed.
+4. prepare_sdcard.sh -- prepares sd_card image assuming a 16 GB storage medium. 
+
+
 ## 1. Establish Cross-compile environment
 This chapter describe how to establish a cross-compile environment on Linux. Please follow the instruction from the sections below to install the required software and finally create an empty project folder for building the project later.
 
@@ -29,51 +36,23 @@ A 64-bit Ubuntu is required to establish a compile environment. Please download 
 * Download [Ubuntu 16.04.1 64-bit](http://releases.ubuntu.com/16.04.1/ubuntu-16.04.1-desktop-amd64.iso)
 * [Install Ubuntu on the Host PC](https://www.ubuntu.com/download/desktop/install-ubuntu-desktop)
 
-### 1.2 Install Quartus Prime Standard Edition 16.0.2
+### 1.2 Install Quartus Prime Standard Edition 18.0
 Altera Quartus is required to compile FPGA project. Please follow the instruction below to download and install Quartus Prime, Cyclone V device and the patch on Ubuntu.
 
-* Download [Quartus Prime Standard Edition](http://dl.altera.com/18.1/?edition=standard&platform=linux#tabs-2) and [Cyclone V device support](http://dl.altera.com/18.1/?edition=standard&platform=linux#tabs-2)
-  ![Download Quartus Prime Standard Edition & Cyclone V device support](https://i.imgur.com/CergaYS.png)
-* Install Quartus Prime Standard Edition
-  * Click Next
-    ![](https://i.imgur.com/G1uZpTv.png)
-  * Select "I accept the agreement" and click Next
-    ![](https://i.imgur.com/GGkRrGo.png)
-  * Pease use the default directory and click Next
-    ![](https://i.imgur.com/GycEQpN.png)
-  * Select "Quartus Prime Standard Edition", "Cyclone V", "Quartus Prime Update 16.0.2.222" and click Next
-    ![](https://i.imgur.com/U0UipiL.png)
-  * Click Next
-    ![](https://i.imgur.com/PmZsH9m.png)
-  * Unselect "Create shortcutes on Desktop", "Launch Quartus Prime Standard Edition" and click Finish
-    ![](https://i.imgur.com/GqgOr2W.png)
-
-
+* Download and install [Quartus Prime Standard Edition](http://dl.altera.com/18.1/?edition=standard&platform=linux#tabs-2) and [Cyclone V device support](http://dl.altera.com/18.1/?edition=standard&platform=linux#tabs-2)
+  
 ### 1.3 Install SoC EDS tool
 Altera SoC EDS tool is required to compile ARM project. Please follow the instructions below to install the EDS tool. 
 :::info
 Note: Altera DS-5 is not required for the installation.
 :::
 
-* Download the [SoC EDS tool](http://dl.altera.com/soceds/18.1/?platform=linux)
-* Install the SoC EDS tool
-  * Click Next
-    ![](https://i.imgur.com/ATVY2pS.png)
-  * Select "I accept the agreement" and click Next
-    ![](https://i.imgur.com/FRgmsHR.png)
-  * Please use the default directory and click Next
-    ![](https://i.imgur.com/rzsXXY1.png)
-  * Unselect "Quartus Prime Programmer and Tools" and click Next
-    ![](https://i.imgur.com/aQLFgYP.png)
-  * Click Next
-    ![](https://i.imgur.com/uvuxp7B.png)
-  * Unselect "Launch DS-5 installation" and click Finish
-    ![](https://i.imgur.com/2dHgAx0.png)
+* Download and install the [SoC EDS tool](http://dl.altera.com/soceds/18.1/?platform=linux)
 
 ### 1.4 Install arm-linux-gnueabihf Toolchain
 ARM toolchain is required to cross-compile ARM project. Please type the following commands in Ubuntu Terminal to install the required ARM toolcahin.
 ```shell
-#Ubuntu 16.04.1
+#for Ubuntu 16.04.1
 cd /opt
 sudo wget -c https://releases.linaro.org/components/toolchain/binaries/5.2-2015.11-2/arm-linux-gnueabihf/gcc-linaro-5.2-2015.11-2-x86_64_arm-linux-gnueabihf.tar.xz
 sudo tar xvf gcc-linaro-5.2-2015.11-2-x86_64_arm-linux-gnueabihf.tar.xz
@@ -81,7 +60,7 @@ sudo ln -s gcc-linaro-5.2-2015.11-2-x86_64_arm-linux-gnueabihf arm-linux-guneabi
 export PATH=$PATH:/opt/arm-linux-guneabihf/bin
 ```
 ```shell
-#Ubuntu 18.04.1
+#for Ubuntu 18.04.1
 cd /opt
 sudo wget -c https://releases.linaro.org/components/toolchain/binaries/7.3-2018.05/arm-linux-gnueabihf/gcc-linaro-7.3.1-2018.05-i686_arm-linux-gnueabihf.tar.xz
 sudo tar xvf gcc-linaro-7.3.1-2018.05-i686_arm-linux-gnueabihf.tar.xz
@@ -134,11 +113,11 @@ make all
 * Copy Components
 Type the following commands to copy the generated components to a dedicated folder for building an image.
 ```shell
-cp output_files/soc_system.rbf ~/de10_nano/image/p1/output_files/
-cp soc_system.dtb ~/de10_nano/image/p1/
-cp u-boot.scr ~/de10_nano/image/p1/
-cp software/preloader/preloader-mkpimage.bin ~/de10_nano/image/p3/
-cp software/preloader/uboot-socfpga/u-boot.img ~/de10_nano/image/p3/
+cp output_files/soc_system.rbf ../image/p1/output_files/
+cp soc_system.dtb ../image/p1/
+cp u-boot.scr ../image/p1/
+cp software/preloader/preloader-mkpimage.bin ../image/p3/
+cp software/preloader/uboot-socfpga/u-boot.img ../image/p3/
 ```
 
 ## 3. Build Linux Filesystem
@@ -171,7 +150,7 @@ sed -i 's%^# deb %deb %' etc/apt/sources.list
 
 * copy your system’s (host machine’s) `/etc/resolv.conf` to `~/de10_nano/rootfs/etc/resolv.conf`. Set proxies if necessary.
 ```shell
-cp /etc/resolv.conf ~/de10_nano/rootfs/etc/resolv.conf
+cp /etc/resolv.conf rootfs/etc/resolv.conf
 ```
 
 * Mounting the filesystem with chroot using the script below and un-mounting later.
@@ -329,14 +308,23 @@ sudo -E make modules_install INSTALL_MOD_PATH=~/de10_nano/rootfs/
 This chapter describes how to merge the components generated in above chapters into an image file. It also shows how to write this image file into a microSD card. 
 
 
-The Python script file 'make_sdimage.py' provided from rocketboards.org can be used to merge these components. Execute the script file
+The Python script file 'make_sdimage2.py' provided from rocketboards.org can be used to merge these components. Execute the script file
 Type the following commands in terminal to execute the script file and merge all components into a single image file 'de1-soc-sd-card.img'
 ```shell
+## for 16 GB images
 sudo ./make_sdimage.py -f \
      -P p1/*,num=1,format=vfat,size=500M \
      -P p2/*,num=2,format=ext3,size=13500M \
      -P p3/preloader-mkpimage.bin,p3/u-boot.img,num=3,format=raw,size=10M,type=A2 \
      -s 14200M \
+     -n de10-nqno-sd-card.img
+     
+## for 4 GB images
+sudo ./make_sdimage.py -f \
+     -P p1/*,num=1,format=vfat,size=100M \
+     -P p2/*,num=2,format=ext3,size=3500M \
+     -P p3/preloader-mkpimage.bin,p3/u-boot.img,num=3,format=raw,size=10M,type=A2 \
+     -s 3700M \
      -n de10-nqno-sd-card.img
 ```
 
@@ -374,16 +362,6 @@ There are three partitions in microSD Card
 The order of the partitions cannot be changed. 
 :::
 
-The following table shows how components are generated.
-| Item | Description | Reference |
-| --------- | ----------- | -------------- |
-| preloader-mkpimage.bin | Preloader image | <a href="#2-build-fpga-project">Build FPGA Project</a> <br>`make preloader` |
-| u-boot.img | U-boot image | <a href="#2-build-fpga-project">Build FPGA Project</a> <br>`make uboot` |
-| soc_system.dtb | Device Tree Blob | <a href="#2-build-fpga-project">Build FPGA Project</a> <br>`make dtb` |
-| soc_system.rbf | FPGA configuration file | <a href="#2-build-fpga-project">Build FPGA Project</a> <br>`make rbf` |
-| u-boot.scr | U-boot script for configuring FPGA | <a href="#2-build-fpga-project">Build FPGA Project</a> <br>`make u-boot.scr` |
-| zImage | Linux kernel image file | <a href="#4-build-linux-kernel">Build Linux Kernel</a> |
-| filesystem | Linux root filesystem | <a href="#3-build-linux-filesystem">Build Linux Filesystem</a> |
 
 ## Update Individual Elements on the microSD Card
 It is time consuming to write the entire image to the microSD card whenever a modification is made. Hence it is preferred to update the elements individually after the first image is created and written to the microSD card. 
