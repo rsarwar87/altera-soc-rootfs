@@ -172,7 +172,7 @@ apt update
 
 * Install minimal packages required for core utils
 ```shell
-apt install language-pack-en-base sudo ssh net-tools ethtool iputils-ping rsyslog alsa-utils bash-completion htop python-gobject-2 network-manager ntp build-essential python3--no-install-recommends usbutils psmisc lsof unzip udev net-tools netbase ifupdown network-manager lsb-base nginx --yes
+apt install language-pack-en-base sudo ssh net-tools ethtool iputils-ping rsyslog alsa-utils bash-completion htop python-gobject-2 network-manager ntp build-essential python3--no-install-recommends usbutils psmisc lsof unzip udev net-tools netbase ifupdown network-manager lsb-base nginx vim cmake --yes
 ```
 
 * Add /usr/local/koheron-server to the environment PATH
@@ -208,7 +208,17 @@ EOF_CAT
 useradd rsarwar 
 passwd rsarwar
 addgroup rsarwar sudo && addgroup rsarwar audio && addgroup rsarwar video
+mkdir -p /home/rsarwar
 
+cat <<- EOF_CAT >> /home/rsarwar/.bash_profile
+if [ -f ~/.bashrc ]; then
+    . ~/.bashrc
+fi
+EOF_CAT
+
+cat <<- EOF_CAT >> /home/rsarwar/.bashrc
+PS1="\[\033[01;32m\]\u@\h\[\033[00m\] : \[\033[01;34m\]\w\[\033[00m\]\n\$ " 
+EOF_CAT
 systemd-machine-id-setup
 ```
 
