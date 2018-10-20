@@ -9,6 +9,13 @@ This repository includes an Ubuntu 18.04.1 base with several development package
 4. <a href="#4-build-linux-kernel">Build Linux Kernel</a>
 5. <a href="#5-create-linux-image-file">Create Linux Image File</a>
 
+* The following scripts aims to automate some of these steps.
+1. download_rootfs.sh -- Download and prepare root file system.
+2. update_rootfs.sh -- Update file system with standard tools
+3. prepare_devicetree.sh -- compiles device hardware information and places them according to requirement. Please ensure that 2.2 Quartus Setup is followed.
+4. prepare_sdcard.sh -- prepares sd_card image assuming a 16 GB storage medium. 
+
+
 ## 1. Establish Cross-compile environment
 This chapter describe how to establish a cross-compile environment on Linux. Please follow the instruction from the sections below to install the required software and finally create an empty project folder for building the project later.
 
