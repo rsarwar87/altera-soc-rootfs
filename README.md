@@ -106,11 +106,11 @@ make all
 * Copy Components
 Type the following commands to copy the generated components to a dedicated folder for building an image.
 ```shell
-cp output_files/soc_system.rbf ~/de10_nano/image/p1/output_files/
-cp soc_system.dtb ~/de10_nano/image/p1/
-cp u-boot.scr ~/de10_nano/image/p1/
-cp software/preloader/preloader-mkpimage.bin ~/de10_nano/image/p3/
-cp software/preloader/uboot-socfpga/u-boot.img ~/de10_nano/image/p3/
+cp output_files/soc_system.rbf ../image/p1/output_files/
+cp soc_system.dtb ../image/p1/
+cp u-boot.scr ../image/p1/
+cp software/preloader/preloader-mkpimage.bin ../image/p3/
+cp software/preloader/uboot-socfpga/u-boot.img ../image/p3/
 ```
 
 ## 3. Build Linux Filesystem
@@ -143,7 +143,7 @@ sed -i 's%^# deb %deb %' etc/apt/sources.list
 
 * copy your system’s (host machine’s) `/etc/resolv.conf` to `~/de10_nano/rootfs/etc/resolv.conf`. Set proxies if necessary.
 ```shell
-cp /etc/resolv.conf ~/de10_nano/rootfs/etc/resolv.conf
+cp /etc/resolv.conf rootfs/etc/resolv.conf
 ```
 
 * Mounting the filesystem with chroot using the script below and un-mounting later.
