@@ -209,6 +209,8 @@ useradd rsarwar
 passwd rsarwar
 addgroup rsarwar sudo && addgroup rsarwar audio && addgroup rsarwar video
 mkdir -p /home/rsarwar
+chsh -s /bin/bash
+
 
 cat <<- EOF_CAT >> /home/rsarwar/.bash_profile
 if [ -f ~/.bashrc ]; then
