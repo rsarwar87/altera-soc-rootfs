@@ -172,7 +172,7 @@ apt update
 
 * Install minimal packages required for core utils
 ```shell
-apt install language-pack-en-base sudo ssh net-tools ethtool iputils-ping rsyslog alsa-utils bash-completion htop python-gobject-2 network-manager ntp build-essential python3--no-install-recommends usbutils psmisc lsof unzip udev net-tools netbase ifupdown network-manager lsb-base nginx vim cmake --yes
+apt install language-pack-en-base sudo ssh net-tools ethtool iputils-ping rsyslog alsa-utils bash-completion htop python-gobject-2 network-manager ntp build-essential python3--no-install-recommends usbutils psmisc lsof unzip udev net-tools netbase ifupdown network-manager lsb-base nginx vim cmake ntp whois libpcap-dev bind-utils git --yes
 ```
 
 * Add /usr/local/koheron-server to the environment PATH
