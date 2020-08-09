@@ -255,9 +255,9 @@ Type the following commands in Ubuntu Terminal for building the Linux kernel.
 * Download the source code of the kernel
 ```shell
 cd ~/de10_nano
-git clone https://github.com/altera-opensource/linux-socfpga.git
-cd linux-socfpga
-git checkout -t -b socfpga-4.5 origin/socfpga-4.5
+git clone https://github.com/rsarwar87/altera-soc-rootfs
+cd altera-soc-rootfs
+git checkout socfpga-5.4.23-lts
 ```
 
 * Setup enviroment variables for cross-compilation
@@ -270,34 +270,6 @@ export CROSS_COMPILE=arm-linux-gnueabihf-
 ```shell
 make socfpga_defconfig
 ```
-
-* Kernel configuration
-
-
-    ```shell
-    make menuconfig
-    ```
-  * Enable Frame Reader framebuffer support
-    ```
-    Device Drivers  --->
-      Graphics support  --->
-        Frame buffer Devices  --->
-          <*> Support for frame buffer devices  --->
-          <*> Altera VIP Frame Reader framebuffer support
-    ```
-
-  * Enable UVC Camera support
-    ```
-    Device driver-->
-      <*>Multimedia support-->
-        [*]Cameras/video grabbers support
-        [*]Media USB Adapters-->
-          <*>USB Video Class(UVC)
-            [*]UVC input event device support
-    ```
-    
-    > Move cursor to 「Media USB Adapters-->」,then press 'Enter' to enter the submenu.
-* Save config and exit 
 
 * Compile kernel
 ```shell
